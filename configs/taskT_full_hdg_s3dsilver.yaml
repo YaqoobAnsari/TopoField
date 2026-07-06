@@ -1,0 +1,24 @@
+# Example experiment: Task T (thermal) with the full HDG, silver-pretrained on
+# Structured3D. Copy this and flip single flags for the §11.4 ablation grid
+# (e.g. representation.hierarchy: false -> taskT_flat_...).
+defaults:
+  - base
+
+experiment: taskT_full_hdg_s3dsilver
+task: thermal              # heads: thermal-zone clustering (ARI/NMI) + temp rank (Spearman)
+
+data:
+  train_corpus: silver     # Structured3D EnergyPlus/RC-labeled
+  eval_corpus: instbuild   # gold, LOBO
+
+representation:
+  hierarchy: true
+  edge_types: true
+  direction: true
+  node_attrs: true
+
+train:
+  pretrain: silver         # curriculum: symbol -> silver -> gold fine-tune (§7 Phase 3)
+  finetune: gold
+
+hypotheses: [H3, H4, H4b]  # tracked so /paper-claims can check thresholds

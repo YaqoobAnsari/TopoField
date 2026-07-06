@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "topofield"
+version = "0.1.0"
+description = "Hierarchical Directed Graph representations of institutional buildings for physical field inference (CVPR 2026)"
+requires-python = ">=3.11"
+readme = "README.md"
+license = { text = "TBD — set before release" }
+authors = [{ name = "TopoField" }]
+
+# Core runtime: everything the HDG contract, metrics, and CLI need. Kept light so
+# `topofield validate` runs in a minimal env. Heavy learning stack is in [models].
+dependencies = [
+    "numpy",
+    "scipy",
+    "networkx>=3.0",
+    "jsonschema>=4.0",
+    "scikit-learn",
+    "matplotlib",
+    "pyyaml",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "ruff>=0.4", "pyright>=1.1"]
+config = ["hydra-core>=1.3", "omegaconf>=2.3"]
+tracking = ["wandb", "tensorboard", "pandas"]
+# Installed separately against the CUDA wheel index (see environment.yml / README):
+#   pip install --extra-index-url https://download.pytorch.org/whl/cu121 torch==2.5.1
+models = ["torch==2.5.1", "torch-geometric>=2.6,<2.7"]
+
+[project.scripts]
+topofield = "topofield.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = ["slow: long-running tests (deselect with -m 'not slow')"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pyright]
+include = ["src", "tests"]
+pythonVersion = "3.11"
+typeCheckingMode = "basic"

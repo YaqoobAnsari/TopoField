@@ -1,0 +1,24 @@
+# Core conda environment for TopoField (Spartan / UniMelb HPC).
+#
+# Reproduce with:
+#   module load Miniforge3/24.7.1-2
+#   mamba env create -f environment.yml      # creates env at $envs_dirs/topofield
+#   conda activate topofield
+#
+# CUDA note: torch 2.5.1 + cu121 wheels are the known-good stack on this cluster
+# (matches the sibling `thermotwin` env). At run time, load a matching CUDA:
+#   module load CUDA/12.4.1
+# The baseline reconstruction/simulation stacks (RoomFormer/MMDetection, EnergyPlus,
+# JuPedSim) are deliberately NOT here — they live in quarantined envs (setup guide §4).
+
+name: topofield
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cu121
+      - torch==2.5.1
+      - torch-geometric>=2.6,<2.7
+      - -e .[dev,config,tracking]

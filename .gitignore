@@ -1,0 +1,40 @@
+# Data lives on project storage, never in git (CLAUDE.md invariant). Only the
+# committed MANIFEST and layout markers are tracked.
+/data/*
+!/data/.gitkeep
+!/data/MANIFEST.md
+
+# Exploratory notebooks live here, never in src/ (setup guide §2 Style).
+/scratch/
+
+# Cloned baselines are pinned by commit in third_party/<name>/ENV.md, not vendored.
+/third_party/*
+!/third_party/.gitkeep
+!/third_party/PATCHES.md
+
+# Experiment outputs
+/outputs/
+/wandb/
+/lightning_logs/
+*.ckpt
+*.pth
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pyright/
+*.png
+!docs/**/*.png
+!results/**/*.png
+
+# Env / OS
+.venv/
+.env
+.DS_Store

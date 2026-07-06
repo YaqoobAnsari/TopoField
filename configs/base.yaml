@@ -1,0 +1,41 @@
+# Base experiment config. One YAML per experiment inherits from this; the §11.4
+# ablation grid is a directory of configs differing in single flags. No
+# hyperparameters live in source (CLAUDE.md).
+
+seed: 0                     # runs sweep seeds 0,1,2
+smoke: false               # true -> fixture-scale data, 2 steps, CPU-ok
+
+data:
+  root: data
+  splits_by: building      # LOBO: never split by floor
+  manifest: data/MANIFEST.md
+
+representation:             # HDG ablation switches (§11.4)
+  hierarchy: true          # false -> flat E_a
+  edge_types: true         # false -> tau collapsed
+  direction: true          # false -> delta symmetrized
+  node_attrs: true         # false -> pure topology
+
+model:
+  name: hdg_encoder
+  params_millions: 4
+  laplacian_pe: true
+
+train:
+  optimizer: adamw
+  lr: 3.0e-4
+  schedule: cosine
+  dropout: 0.1
+  drop_edge: 0.1
+  max_epochs: 100
+  early_stop_metric: val_ari
+
+eval:
+  lobo_folds: 30           # >=30 buildings -> >=30 folds
+  seeds: [0, 1, 2]
+  stats_test: wilcoxon_holm
+
+tracking:
+  backend: wandb           # or csv+tensorboard
+  log_config_hash: true
+  log_git_commit: true

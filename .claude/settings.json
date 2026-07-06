@@ -1,0 +1,51 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(pytest:*)",
+      "Bash(python -m pytest:*)",
+      "Bash(ruff:*)",
+      "Bash(pyright:*)",
+      "Bash(topofield:*)",
+      "Bash(scripts/smoke.sh)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(squeue:*)",
+      "Bash(sacct:*)"
+    ],
+    "deny": [
+      "Bash(rm -rf:*)",
+      "Write(data/instbuild/raw/**)",
+      "Edit(data/instbuild/raw/**)",
+      "Write(data/**/annotations/**)",
+      "Edit(data/**/annotations/**)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard_third_party.py\""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/validate_hdg.py\""
+          }
+        ]
+      }
+    ]
+  }
+}

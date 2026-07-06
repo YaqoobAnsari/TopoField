@@ -1,0 +1,41 @@
+{
+  "version": "0.1",
+  "metadata": {
+    "generated_by": "hand-authored canonical fixture",
+    "source": "docs/research_plan_final.md §4.2 (worked example)",
+    "building_id": "hospital_toy",
+    "notes": "Canonical worked example. 10 nodes, 9 containment (E_c) edges, 7 adjacency (E_a) edges including the cross-hierarchy Nurse<->Records door. That door is modelled here as badge-controlled (delta='forward', nurse->records) to exercise directed access; the un-badged variant is plain 'bidirectional'. If code disagrees with this fixture, the code is wrong."
+  },
+  "nodes": [
+    { "id": "hospital",   "level": 0, "attrs": { "name": "Toy General Hospital" } },
+    { "id": "icu_wing",   "level": 1, "attrs": { "function_label": "ICU",            "aggregate_area": 120.0, "room_count": 3 } },
+    { "id": "admin_wing", "level": 1, "attrs": { "function_label": "Administration", "aggregate_area": 60.0,  "room_count": 2 } },
+    { "id": "corr_a",     "level": 2, "attrs": { "length": 20.0, "connected_room_count": 3 } },
+    { "id": "corr_b",     "level": 2, "attrs": { "length": 12.0, "connected_room_count": 2 } },
+    { "id": "icu_1",      "level": 3, "attrs": { "type": "icu_room",      "area": 30.0, "aspect_ratio": 1.2, "perimeter": 22.0, "centroid": [0.20, 0.30] } },
+    { "id": "icu_2",      "level": 3, "attrs": { "type": "icu_room",      "area": 30.0, "aspect_ratio": 1.2, "perimeter": 22.0, "centroid": [0.20, 0.55] } },
+    { "id": "nurse",      "level": 3, "attrs": { "type": "nurse_station", "area": 25.0, "aspect_ratio": 1.0, "perimeter": 20.0, "centroid": [0.38, 0.42] } },
+    { "id": "office",     "level": 3, "attrs": { "type": "office",        "area": 20.0, "aspect_ratio": 1.1, "perimeter": 18.0, "centroid": [0.72, 0.40] } },
+    { "id": "records",    "level": 3, "attrs": { "type": "records",       "area": 20.0, "aspect_ratio": 1.1, "perimeter": 18.0, "centroid": [0.60, 0.42] } }
+  ],
+  "containment_edges": [
+    { "source": "hospital",   "target": "icu_wing" },
+    { "source": "hospital",   "target": "admin_wing" },
+    { "source": "icu_wing",   "target": "corr_a" },
+    { "source": "admin_wing", "target": "corr_b" },
+    { "source": "corr_a",     "target": "icu_1" },
+    { "source": "corr_a",     "target": "icu_2" },
+    { "source": "corr_a",     "target": "nurse" },
+    { "source": "corr_b",     "target": "office" },
+    { "source": "corr_b",     "target": "records" }
+  ],
+  "adjacency_edges": [
+    { "source": "icu_1", "target": "icu_2",   "tau": "wall-adjacent",  "delta": "bidirectional" },
+    { "source": "icu_1", "target": "corr_a",  "tau": "door-connected", "delta": "bidirectional" },
+    { "source": "icu_2", "target": "corr_a",  "tau": "door-connected", "delta": "bidirectional" },
+    { "source": "nurse", "target": "corr_a",  "tau": "door-connected", "delta": "bidirectional" },
+    { "source": "office","target": "corr_b",  "tau": "door-connected", "delta": "bidirectional" },
+    { "source": "records","target": "corr_b", "tau": "door-connected", "delta": "bidirectional" },
+    { "source": "nurse", "target": "records", "tau": "door-connected", "delta": "forward" }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://topofield.dev/schemas/hdg.schema.json",
+  "title": "Hierarchical Directed Graph (HDG)",
+  "description": "Machine-checkable contract for the HDG representation (docs/research_plan_final.md §4.3). This schema enforces what JSON Schema can express: structure, level enums, edge-type / direction enums, and per-level required node attributes. Relational invariants that JSON Schema CANNOT express — containment forms a forest, E_c level-adjacency (L(parent)=L(child)-1), E_a endpoint levels {2,3}, and dangling-edge references — are enforced by src/topofield/graph/validate.py. Every producer validates on write; every consumer validates on read; BOTH the schema and the semantic validator must pass.",
+  "type": "object",
+  "required": ["version", "nodes", "containment_edges", "adjacency_edges"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "HDG schema version this graph targets (e.g. '0.1'). Bumped only via docs/decisions/."
+    },
+    "metadata": { "$ref": "#/$defs/provenance" },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/node" }
+    },
+    "containment_edges": {
+      "type": "array",
+      "description": "Family 1 (E_c): is-part-of tree. (source contains target). Strictly level-adjacent; forms a forest (checked semantically).",
+      "items": { "$ref": "#/$defs/containment_edge" }
+    },
+    "adjacency_edges": {
+      "type": "array",
+      "description": "Family 2 (E_a): physical adjacency at levels {2,3}; may cross the hierarchy.",
+      "items": { "$ref": "#/$defs/adjacency_edge" }
+    }
+  },
+  "$defs": {
+    "level": {
+      "type": "integer",
+      "enum": [0, 1, 2, 3],
+      "description": "L: V -> {0 building, 1 wing/zone, 2 corridor, 3 room}"
+    },
+    "centroid": {
+      "type": "array",
+      "description": "Normalized [x, y] centroid in the unit square.",
+      "items": { "type": "number", "minimum": 0, "maximum": 1 },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "provenance": {
+      "type": "object",
+      "description": "In-file provenance stamp (setup guide §5).",
+      "properties": {
+        "generated_by": { "type": "string" },
+        "source": { "type": "string" },
+        "commit": { "type": "string" },
+        "date": { "type": "string" },
+        "building_id": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "node": {
+      "type": "object",
+      "required": ["id", "level"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "level": { "$ref": "#/$defs/level" },
+        "attrs": { "type": "object" }
+      },
+      "allOf": [
+        {
+          "if": { "required": ["level"], "properties": { "level": { "const": 3 } } },
+          "then": {
+            "required": ["attrs"],
+            "properties": {
+              "attrs": {
+                "type": "object",
+                "required": ["type", "area"],
+                "properties": {
+                  "type": { "type": "string", "minLength": 1 },
+                  "area": { "type": "number", "exclusiveMinimum": 0 },
+                  "aspect_ratio": { "type": "number", "exclusiveMinimum": 0 },
+                  "perimeter": { "type": "number", "exclusiveMinimum": 0 },
+                  "centroid": { "$ref": "#/$defs/centroid" }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": { "required": ["level"], "properties": { "level": { "const": 2 } } },
+          "then": {
+            "properties": {
+              "attrs": {
+                "type": "object",
+                "properties": {
+                  "length": { "type": "number", "exclusiveMinimum": 0 },
+                  "connected_room_count": { "type": "integer", "minimum": 0 }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": { "required": ["level"], "properties": { "level": { "const": 1 } } },
+          "then": {
+            "required": ["attrs"],
+            "properties": {
+              "attrs": {
+                "type": "object",
+                "required": ["function_label"],
+                "properties": {
+                  "function_label": { "type": "string", "minLength": 1 },
+                  "aggregate_area": { "type": "number", "exclusiveMinimum": 0 },
+                  "room_count": { "type": "integer", "minimum": 0 }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "containment_edge": {
+      "type": "object",
+      "required": ["source", "target"],
+      "additionalProperties": false,
+      "properties": {
+        "source": { "type": "string", "minLength": 1, "description": "Parent node id (the container)." },
+        "target": { "type": "string", "minLength": 1, "description": "Child node id (the contained)." }
+      }
+    },
+    "adjacency_edge": {
+      "type": "object",
+      "required": ["source", "target", "tau"],
+      "additionalProperties": false,
+      "properties": {
+        "source": { "type": "string", "minLength": 1 },
+        "target": { "type": "string", "minLength": 1 },
+        "tau": {
+          "type": "string",
+          "enum": ["wall-adjacent", "door-connected", "corridor-link"],
+          "description": "Physical-adjacency type."
+        },
+        "delta": {
+          "type": "string",
+          "enum": ["bidirectional", "forward", "backward"],
+          "default": "bidirectional",
+          "description": "Access direction. 'forward' = source->target, 'backward' = target->source. Absent is treated as 'bidirectional' by the validator."
+        }
+      }
+    }
+  }
+}
