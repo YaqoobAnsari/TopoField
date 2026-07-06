@@ -77,3 +77,22 @@ audited on return.
 - Repo green: 35 tests, ruff + pyright clean.
 
 ### Interruption — Yaqoob returned; paused autonomous loop to report status.
+
+### Milestone 3 — baselines, adapter, annotation tool, HDG ingestion, real-image pipeline
+- Baselines: 9 cloned+pinned; envs BUILT via Slurm: f3loc, laser, roomformer (CUDA
+  ops compiled), raster-to-graph, polyroom. HEAT/floor-sp blocked (old torch/sm_80).
+- Tesseract→HDG adapter (tested on real sample); schema ADR 0004 (area optional,
+  door_class). Annotation tool: engine (8 tested ops) + FastAPI (verified) + Cytoscape
+  UI (no nav; zone/tau/delta). HDG ingestion: data/dataset.py (HDGDataset, LOBO),
+  extraction/batch.py, models/train --data-dir. 60 tests, ruff+pyright clean.
+- Real-image pipeline + dataset-download jobs scripted and submitted.
+
+### BLOCKER — project inode (file-count) quota hit (docs/hpc_quota.md)
+- /data/gpfs/projects/punim2769 at ~470k/500k FILES (94%) while only 63% space.
+  build-tesseract + build-house_diffusion FAILED (Disk quota exceeded = inodes);
+  extract-real auto-cancelled; downloads cancelled (extraction would blow budget).
+- Cleanup (conda clean/pip purge) recovered only ~2.3k files; removing 2 failed
+  partial envs freed ~28k (now ~30k headroom). Cannot be fixed by cleanup — the
+  inodes ARE the conda envs. Scratch has 1.6B inodes but no writable punim2769
+  allocation exists. NEEDS: inode quota increase OR scratch allocation (admin) OR
+  Apptainer containers (self-service). Paused to get Yaqoob's decision.
