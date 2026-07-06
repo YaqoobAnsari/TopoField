@@ -3,6 +3,23 @@
 ## Communication (read first)
 - Address the user as **Yaqoob** at the start of every response.
 
+## Compute policy (HARD RULE — no exceptions)
+This is a SHARED login node. **Never run compute here** — no training, no
+simulation, no experiment scripts, no data processing, no env builds that compile,
+not even "quick" single-threaded CPU runs. **Everything compute goes through Slurm**
+(`sbatch`/`srun`). The login node is ONLY for: editing code, git, scheduler queries
+(`squeue`/`sacct`/`sinfo`), and trivial dev checks (`ruff`, `topofield validate` on a
+fixture, a fast unit test). When unsure, Slurm it.
+
+Slurm on Spartan — always `--account=punim2769`:
+- **FEIT GPU (our entitlement):** `--partition=feit-gpu-a100 --qos=feit` (A100×4/node, 7-day)
+- **Public GPU:** `--partition=gpu-a100 --qos=publicgpu` (also `gpu-h100`, `gpu-l40s`);
+  quick 4-hour tests: `--partition=gpu-a100-short --qos=publicgpu`
+- **CPU** (env builds, extraction, RC-sim, clustering): `--partition=sapphire --qos=normal`
+  (or `cascade`)
+- Templates: `scripts/slurm/gpu.slurm`, `scripts/slurm/cpu.slurm`. Launch detached;
+  check with `squeue -u $USER` / `sacct` — never busy-wait, never babysit a long job.
+
 ## What this is
 Hierarchical Directed Graph (HDG) representation of institutional floorplans
 + one shared graph-transformer encoder + three task arms:
