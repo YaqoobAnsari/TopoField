@@ -1,0 +1,372 @@
+{
+  "experiment": "experiment2_physics_signal",
+  "integrity": "SYNTHETIC data + RC surrogate; feasibility signal only. Wings are spatial here, so 'spatial_ari' quantifies the geometric confound; functional-vs-geometric (H4b) needs real InstBuild.",
+  "config": {
+    "n_buildings": 30,
+    "n_wings": 4,
+    "seed0": 0
+  },
+  "aggregate_ari": {
+    "thermal_ari": {
+      "mean": 0.47076052509068084,
+      "std": 0.10133346296535614
+    },
+    "thermal_nmi": {
+      "mean": 0.6072811342421927,
+      "std": 0.07328877697957482
+    },
+    "spatial_ari": {
+      "mean": 0.3171711213842901,
+      "std": 0.0019375421583279005
+    },
+    "roomtype_ari": {
+      "mean": 0.14124623021372754,
+      "std": 0.06478845055941974
+    },
+    "louvain_ari": {
+      "mean": 0.9921533389674724,
+      "std": 0.011111647924781197
+    },
+    "random_ari": {
+      "mean": 0.002757910637437855,
+      "std": 0.015387501821975225
+    }
+  },
+  "paired_tests": {
+    "thermal_vs_random_wilcoxon_p": 1.862645149230957e-09,
+    "thermal_vs_spatial_wilcoxon_p": 1.862645149230957e-09
+  },
+  "gate_reference": "plan \u00a77 Experiment-2: ARI>0.25 -> full C2; H3 target ARI>0.4",
+  "per_building": [
+    {
+      "building": "synthetic_0000",
+      "n_rooms": 112,
+      "n_zones": 4,
+      "thermal_ari": 0.4803542392913548,
+      "thermal_nmi": 0.6145862073854794,
+      "spatial_ari": 0.31817531241330016,
+      "roomtype_ari": 0.1446595889957222,
+      "louvain_ari": 1.0,
+      "random_ari": 0.0034417064867734784
+    },
+    {
+      "building": "synthetic_0001",
+      "n_rooms": 118,
+      "n_zones": 4,
+      "thermal_ari": 0.3443667225836118,
+      "thermal_nmi": 0.5121023321918637,
+      "spatial_ari": 0.3194089828889259,
+      "roomtype_ari": 0.13920927202337832,
+      "louvain_ari": 0.9765870474784695,
+      "random_ari": 0.003468615663071711
+    },
+    {
+      "building": "synthetic_0002",
+      "n_rooms": 122,
+      "n_zones": 4,
+      "thermal_ari": 0.49671780564331736,
+      "thermal_nmi": 0.6074224165296093,
+      "spatial_ari": 0.3182672863763896,
+      "roomtype_ari": 0.29365375231881885,
+      "louvain_ari": 1.0,
+      "random_ari": -0.01793507482242115
+    },
+    {
+      "building": "synthetic_0003",
+      "n_rooms": 122,
+      "n_zones": 4,
+      "thermal_ari": 0.5047300033965694,
+      "thermal_nmi": 0.6222023729856125,
+      "spatial_ari": 0.3166419447894341,
+      "roomtype_ari": 0.08498281533747383,
+      "louvain_ari": 1.0,
+      "random_ari": -0.017781743717191184
+    },
+    {
+      "building": "synthetic_0004",
+      "n_rooms": 118,
+      "n_zones": 4,
+      "thermal_ari": 0.49776157170107577,
+      "thermal_nmi": 0.6292061833188792,
+      "spatial_ari": 0.31736411089862265,
+      "roomtype_ari": 0.13471720142627922,
+      "louvain_ari": 0.9758352933922836,
+      "random_ari": -0.011001635977560062
+    },
+    {
+      "building": "synthetic_0005",
+      "n_rooms": 131,
+      "n_zones": 4,
+      "thermal_ari": 0.3901636325191496,
+      "thermal_nmi": 0.5732594254744146,
+      "spatial_ari": 0.3187448906481373,
+      "roomtype_ari": 0.08026530781902397,
+      "louvain_ari": 1.0,
+      "random_ari": -0.01741935358994112
+    },
+    {
+      "building": "synthetic_0006",
+      "n_rooms": 111,
+      "n_zones": 4,
+      "thermal_ari": 0.48760559479296495,
+      "thermal_nmi": 0.6216922303121898,
+      "spatial_ari": 0.31852942232434567,
+      "roomtype_ari": 0.10883729440814725,
+      "louvain_ari": 1.0,
+      "random_ari": 0.011247146648450527
+    },
+    {
+      "building": "synthetic_0007",
+      "n_rooms": 107,
+      "n_zones": 4,
+      "thermal_ari": 0.43181455183295353,
+      "thermal_nmi": 0.5436176995227092,
+      "spatial_ari": 0.3166264498170768,
+      "roomtype_ari": 0.04620411042297853,
+      "louvain_ari": 0.9761862009805692,
+      "random_ari": 0.004140138701684139
+    },
+    {
+      "building": "synthetic_0008",
+      "n_rooms": 109,
+      "n_zones": 4,
+      "thermal_ari": 0.418738256922698,
+      "thermal_nmi": 0.5627689611943646,
+      "spatial_ari": 0.31475079673598433,
+      "roomtype_ari": 0.23422607363229145,
+      "louvain_ari": 1.0,
+      "random_ari": -0.01890688242221663
+    },
+    {
+      "building": "synthetic_0009",
+      "n_rooms": 111,
+      "n_zones": 4,
+      "thermal_ari": 0.39053347429222557,
+      "thermal_nmi": 0.5452790300262182,
+      "spatial_ari": 0.31546348950155495,
+      "roomtype_ari": 0.15107375959257102,
+      "louvain_ari": 0.9768955193639216,
+      "random_ari": 0.022752328744636202
+    },
+    {
+      "building": "synthetic_0010",
+      "n_rooms": 119,
+      "n_zones": 4,
+      "thermal_ari": 0.6655415291435571,
+      "thermal_nmi": 0.7535219473326753,
+      "spatial_ari": 0.31598967015275553,
+      "roomtype_ari": 0.2418070270630036,
+      "louvain_ari": 0.9757770372229475,
+      "random_ari": 0.012062971556348164
+    },
+    {
+      "building": "synthetic_0011",
+      "n_rooms": 128,
+      "n_zones": 4,
+      "thermal_ari": 0.6590671062203842,
+      "thermal_nmi": 0.7498236506221663,
+      "spatial_ari": 0.3181342124407684,
+      "roomtype_ari": 0.09986523875485717,
+      "louvain_ari": 1.0,
+      "random_ari": 0.009432273495321225
+    },
+    {
+      "building": "synthetic_0012",
+      "n_rooms": 118,
+      "n_zones": 4,
+      "thermal_ari": 0.3293684990757868,
+      "thermal_nmi": 0.5057509896979309,
+      "spatial_ari": 0.3172235684354446,
+      "roomtype_ari": 0.0761235116980503,
+      "louvain_ari": 1.0,
+      "random_ari": 0.022128732593790966
+    },
+    {
+      "building": "synthetic_0013",
+      "n_rooms": 122,
+      "n_zones": 4,
+      "thermal_ari": 0.3718592688177094,
+      "thermal_nmi": 0.5262892240731036,
+      "spatial_ari": 0.3172455701313771,
+      "roomtype_ari": 0.18375165365237697,
+      "louvain_ari": 1.0,
+      "random_ari": 0.05024904953883744
+    },
+    {
+      "building": "synthetic_0014",
+      "n_rooms": 118,
+      "n_zones": 4,
+      "thermal_ari": 0.6107353057808818,
+      "thermal_nmi": 0.6751904040758204,
+      "spatial_ari": 0.31831941998677415,
+      "roomtype_ari": 0.17948823014328502,
+      "louvain_ari": 1.0,
+      "random_ari": 0.0015103617316347265
+    },
+    {
+      "building": "synthetic_0015",
+      "n_rooms": 118,
+      "n_zones": 4,
+      "thermal_ari": 0.4501028422926503,
+      "thermal_nmi": 0.5875151753517042,
+      "spatial_ari": 0.3199566175258311,
+      "roomtype_ari": 0.12047866964823745,
+      "louvain_ari": 0.9774032656997677,
+      "random_ari": 0.012350643363044537
+    },
+    {
+      "building": "synthetic_0016",
+      "n_rooms": 114,
+      "n_zones": 4,
+      "thermal_ari": 0.6112187701085724,
+      "thermal_nmi": 0.7134970321043961,
+      "spatial_ari": 0.31641767298985013,
+      "roomtype_ari": 0.08084008121926756,
+      "louvain_ari": 1.0,
+      "random_ari": 0.004412938834737406
+    },
+    {
+      "building": "synthetic_0017",
+      "n_rooms": 109,
+      "n_zones": 4,
+      "thermal_ari": 0.3701356708168165,
+      "thermal_nmi": 0.5405856047485241,
+      "spatial_ari": 0.3147035681489981,
+      "roomtype_ari": 0.05734702412486728,
+      "louvain_ari": 1.0,
+      "random_ari": -0.020452971473227145
+    },
+    {
+      "building": "synthetic_0018",
+      "n_rooms": 117,
+      "n_zones": 4,
+      "thermal_ari": 0.5975712683631265,
+      "thermal_nmi": 0.6917255463297112,
+      "spatial_ari": 0.31521234328546105,
+      "roomtype_ari": 0.31175911406495016,
+      "louvain_ari": 0.9756714926851562,
+      "random_ari": 0.00833317194011666
+    },
+    {
+      "building": "synthetic_0019",
+      "n_rooms": 116,
+      "n_zones": 4,
+      "thermal_ari": 0.35936681090496375,
+      "thermal_nmi": 0.5096588844988678,
+      "spatial_ari": 0.3143744032529389,
+      "roomtype_ari": 0.18996210749114545,
+      "louvain_ari": 0.9769607147432398,
+      "random_ari": 0.014966874814642955
+    },
+    {
+      "building": "synthetic_0020",
+      "n_rooms": 116,
+      "n_zones": 4,
+      "thermal_ari": 0.38705038288735033,
+      "thermal_nmi": 0.5633656101214284,
+      "spatial_ari": 0.32032182249901364,
+      "roomtype_ari": 0.09169623556981185,
+      "louvain_ari": 1.0,
+      "random_ari": -0.011982442500442747
+    },
+    {
+      "building": "synthetic_0021",
+      "n_rooms": 113,
+      "n_zones": 4,
+      "thermal_ari": 0.5914764520866167,
+      "thermal_nmi": 0.7252414159904821,
+      "spatial_ari": 0.3193442729015196,
+      "roomtype_ari": 0.13269477810921584,
+      "louvain_ari": 1.0,
+      "random_ari": 0.010575634794188927
+    },
+    {
+      "building": "synthetic_0022",
+      "n_rooms": 117,
+      "n_zones": 4,
+      "thermal_ari": 0.48231465020094305,
+      "thermal_nmi": 0.6012512925304071,
+      "spatial_ari": 0.3179191979243521,
+      "roomtype_ari": 0.13940988803753412,
+      "louvain_ari": 1.0,
+      "random_ari": -0.004765120521973919
+    },
+    {
+      "building": "synthetic_0023",
+      "n_rooms": 123,
+      "n_zones": 4,
+      "thermal_ari": 0.3822701350709405,
+      "thermal_nmi": 0.5369990473443106,
+      "spatial_ari": 0.31662740686838625,
+      "roomtype_ari": 0.17893081206035277,
+      "louvain_ari": 1.0,
+      "random_ari": -0.006354179135263995
+    },
+    {
+      "building": "synthetic_0024",
+      "n_rooms": 120,
+      "n_zones": 4,
+      "thermal_ari": 0.6365226442086758,
+      "thermal_nmi": 0.7245540206640255,
+      "spatial_ari": 0.31653357914727737,
+      "roomtype_ari": 0.1072676603041869,
+      "louvain_ari": 1.0,
+      "random_ari": 0.01576853973257051
+    },
+    {
+      "building": "synthetic_0025",
+      "n_rooms": 119,
+      "n_zones": 4,
+      "thermal_ari": 0.56963137092816,
+      "thermal_nmi": 0.6759249867861359,
+      "spatial_ari": 0.31362978816830356,
+      "roomtype_ari": 0.10925594056018331,
+      "louvain_ari": 0.9747856689905834,
+      "random_ari": 0.009381375203031945
+    },
+    {
+      "building": "synthetic_0026",
+      "n_rooms": 119,
+      "n_zones": 4,
+      "thermal_ari": 0.38015742036080774,
+      "thermal_nmi": 0.5686140890392607,
+      "spatial_ari": 0.3150216572565952,
+      "roomtype_ari": 0.1874623584648313,
+      "louvain_ari": 0.978497928467232,
+      "random_ari": -0.015072203645179744
+    },
+    {
+      "building": "synthetic_0027",
+      "n_rooms": 102,
+      "n_zones": 4,
+      "thermal_ari": 0.39070004777669126,
+      "thermal_nmi": 0.5710195871568271,
+      "spatial_ari": 0.3141212582566022,
+      "roomtype_ari": 0.07466034838035805,
+      "louvain_ari": 1.0,
+      "random_ari": -0.006262017230719898
+    },
+    {
+      "building": "synthetic_0028",
+      "n_rooms": 114,
+      "n_zones": 4,
+      "thermal_ari": 0.4584630638297977,
+      "thermal_nmi": 0.6032201809764584,
+      "spatial_ari": 0.3187632927112871,
+      "roomtype_ari": 0.15998342935612309,
+      "louvain_ari": 1.0,
+      "random_ari": 0.001508694897023289
+    },
+    {
+      "building": "synthetic_0029",
+      "n_rooms": 114,
+      "n_zones": 4,
+      "thermal_ari": 0.37647666087007153,
+      "thermal_nmi": 0.5625484788802043,
+      "spatial_ari": 0.32130163305139714,
+      "roomtype_ari": 0.09677362173250463,
+      "louvain_ari": 1.0,
+      "random_ari": 0.012939745419368433
+    }
+  ]
+}
