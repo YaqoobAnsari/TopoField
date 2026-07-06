@@ -22,12 +22,14 @@ from .topology import (
     direction_accuracy,
     edge_type_accuracy,
     hierarchy_recovery_f1,
+    navigational_completeness,
 )
 
 __all__ = [
     "hierarchy_recovery_f1",
     "edge_type_accuracy",
     "direction_accuracy",
+    "navigational_completeness",
     "adjacency_ged",
     "thermal_zone_ari",
     "thermal_zone_nmi",

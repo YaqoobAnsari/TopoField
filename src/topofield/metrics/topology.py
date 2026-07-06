@@ -75,6 +75,35 @@ def direction_accuracy(
     return correct / len(directed_gt)
 
 
+def navigational_completeness(graph) -> float:
+    """Fraction of room pairs that are mutually reachable in the traversable graph
+    (§11.2; Tesseract's metric, kept for extraction-quality comparability).
+
+    This is the connectivity metric WITHOUT any start/end routing — just pairwise
+    room-connection coverage. Accepts an HDG dict or an HDG. Returns 1.0 if <2 rooms.
+    """
+    import networkx as nx
+
+    from ..graph import HDG
+
+    hdg = graph if isinstance(graph, HDG) else HDG.from_dict(graph)
+    rooms = hdg.nodes_at_level(3)
+    if len(rooms) < 2:
+        return 1.0
+    g = hdg.to_adjacency_graph(traversable_only=True)
+    comp_of: dict[str, int] = {}
+    for i, comp in enumerate(nx.connected_components(g)):
+        for node in comp:
+            comp_of[node] = i
+    total = connected = 0
+    for a in range(len(rooms)):
+        for b in range(a + 1, len(rooms)):
+            total += 1
+            if comp_of.get(rooms[a], -1) == comp_of.get(rooms[b], -2):
+                connected += 1
+    return connected / total if total else 1.0
+
+
 def adjacency_ged(pred_graph, gt_graph, timeout: float = 10.0) -> float | None:
     """Graph Edit Distance between predicted and GT adjacency graphs (§11.2).
 

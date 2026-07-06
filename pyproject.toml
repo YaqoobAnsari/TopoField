@@ -25,6 +25,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=7", "ruff>=0.4", "pyright>=1.1"]
+annotator = ["fastapi>=0.104", "uvicorn[standard]>=0.24", "python-multipart>=0.0.6", "httpx>=0.24"]
 config = ["hydra-core>=1.3", "omegaconf>=2.3"]
 tracking = ["wandb", "tensorboard", "pandas"]
 # Installed separately against the CUDA wheel index (see environment.yml / README):

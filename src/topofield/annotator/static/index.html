@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TopoField — HDG Annotator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="brand">TopoField <span>· HDG Annotator</span></div>
+    <div class="toolbar">
+      <button id="btn-example">Load example</button>
+      <label class="filebtn">Import Tesseract<input id="file-tess" type="file" accept=".json" hidden></label>
+      <label class="filebtn">Import HDG<input id="file-hdg" type="file" accept=".json" hidden></label>
+      <button id="btn-validate">Validate</button>
+      <button id="btn-export" class="primary">Export HDG</button>
+    </div>
+  </header>
+
+  <main>
+    <div id="cy"></div>
+
+    <aside id="panel">
+      <section>
+        <h3>Graph</h3>
+        <div id="stats" class="stats">No graph loaded.</div>
+      </section>
+
+      <section id="sel-rooms" hidden>
+        <h3>Selected rooms → zone</h3>
+        <p class="hint"><span id="room-count">0</span> room(s) selected.</p>
+        <input id="zone-label" placeholder="Function label (e.g. ICU)" />
+        <button id="btn-assign-zone" class="primary">Assign to zone</button>
+      </section>
+
+      <section id="sel-edge" hidden>
+        <h3>Selected edge</h3>
+        <p class="hint" id="edge-name">—</p>
+        <label>Type (τ)
+          <select id="edge-tau">
+            <option value="wall-adjacent">wall-adjacent</option>
+            <option value="door-connected">door-connected</option>
+            <option value="corridor-link">corridor-link</option>
+          </select>
+        </label>
+        <label>Direction (δ)
+          <select id="edge-delta">
+            <option value="bidirectional">bidirectional</option>
+            <option value="forward">forward (src→tgt)</option>
+            <option value="backward">backward (tgt→src)</option>
+          </select>
+        </label>
+        <button id="btn-remove-edge" class="danger">Remove edge</button>
+      </section>
+
+      <section>
+        <h3>Legend</h3>
+        <ul class="legend">
+          <li><i class="dot l0"></i> building</li>
+          <li><i class="dot l1"></i> zone / wing</li>
+          <li><i class="dot l2"></i> corridor</li>
+          <li><i class="dot l3"></i> room</li>
+          <li><i class="ln door"></i> door-connected</li>
+          <li><i class="ln wall"></i> wall-adjacent</li>
+          <li><i class="ln corr"></i> corridor-link</li>
+          <li><i class="ln cont"></i> containment (E_c)</li>
+        </ul>
+        <p class="hint">Box-select rooms to form a zone. Tap an edge to type / direct it.
+        Arrows mark directed (access-controlled) doors.</p>
+      </section>
+
+      <div id="msg" class="msg" hidden></div>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
