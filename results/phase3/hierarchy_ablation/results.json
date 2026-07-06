@@ -1,0 +1,71 @@
+{
+  "experiment": "H4_hierarchy_ablation_thermal_rank",
+  "integrity": "SYNTHETIC graphs + RC-surrogate labels; preliminary H4 signal, not a real-data result. Same backbone/budget/schedule; only pooling differs.",
+  "config": {
+    "n_train": 30,
+    "n_test": 10,
+    "epochs": 120,
+    "hidden": 64,
+    "layers": 3,
+    "lr": 0.005,
+    "seeds": [
+      0,
+      1,
+      2
+    ]
+  },
+  "flat": {
+    "spearman": [
+      0.8916694328332072,
+      0.003119747261104021
+    ],
+    "mae": [
+      0.15468280563751857,
+      0.01661886852453194
+    ],
+    "runs": [
+      {
+        "spearman": 0.8909331715673477,
+        "mae": 0.14420899525284767
+      },
+      {
+        "spearman": 0.8958048800138995,
+        "mae": 0.1416987158358097
+      },
+      {
+        "spearman": 0.8882702469183744,
+        "mae": 0.17814070582389832
+      }
+    ]
+  },
+  "hier": {
+    "spearman": [
+      0.8891369419527809,
+      0.015933016055345386
+    ],
+    "mae": [
+      0.1345521945506334,
+      0.012956520656986353
+    ],
+    "runs": [
+      {
+        "spearman": 0.8873999727215145,
+        "mae": 0.13711214624345303
+      },
+      {
+        "spearman": 0.9094612407211825,
+        "mae": 0.11755941733717919
+      },
+      {
+        "spearman": 0.8705496124156455,
+        "mae": 0.14898502007126807
+      }
+    ]
+  },
+  "hier_minus_flat_spearman_by_seed": [
+    -0.003533198845833252,
+    0.013656360707283044,
+    -0.01772063450272887
+  ],
+  "wilcoxon_p": 0.75
+}

@@ -37,7 +37,8 @@ def _kmeans_labels(X: np.ndarray, k: int, seed: int) -> list[int]:
     from sklearn.preprocessing import StandardScaler
 
     Xs = StandardScaler().fit_transform(X)
-    return KMeans(n_clusters=k, random_state=seed, n_init=10).fit(Xs).labels_.tolist()
+    km = KMeans(n_clusters=k, random_state=seed, n_init=10).fit(Xs)  # type: ignore[arg-type]
+    return km.labels_.tolist()  # type: ignore[union-attr]
 
 
 def _louvain_labels(graph: dict[str, Any], rooms: list[str], seed: int) -> list[int]:
@@ -113,7 +114,7 @@ def run(
         da = [r[a] for r in per_building]
         db = [r[b] for r in per_building]
         try:
-            return float(wilcoxon(da, db).pvalue)
+            return float(wilcoxon(da, db).pvalue)  # type: ignore[attr-defined]
         except ValueError:
             return float("nan")
 

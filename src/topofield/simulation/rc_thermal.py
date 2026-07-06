@@ -174,8 +174,8 @@ def label_thermal_zones(sim: dict[str, Any], n_zones: int, seed: int = 0) -> dic
     rooms = sim["rooms"]
     X = np.array([sim["features"][r] for r in rooms])
     Xs = StandardScaler().fit_transform(X)
-    km = KMeans(n_clusters=n_zones, random_state=seed, n_init=10).fit(Xs)
-    return {r: int(c) for r, c in zip(rooms, km.labels_, strict=False)}
+    km = KMeans(n_clusters=n_zones, random_state=seed, n_init=10).fit(Xs)  # type: ignore[arg-type]
+    return {r: int(c) for r, c in zip(rooms, km.labels_, strict=False)}  # type: ignore[arg-type]
 
 
 def functional_zones(graph: dict[str, Any]) -> dict[str, int]:

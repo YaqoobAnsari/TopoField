@@ -59,3 +59,21 @@ audited on return.
   generator. Calibration was for physical realism; ARI was stable across the
   calibration range (0.36→0.48→0.47), i.e. not a tuning artifact.
 - Repo green: 32 tests pass, ruff + pyright clean.
+
+### Milestone 2 — HDG encoder + flat baseline + H4 ablation (real training, HONEST NEGATIVE)
+- Built `models.data` (HDG→tensors, directed E_a per delta), `models.encoders`
+  (`HDGNet` flat/hier — parameter-matched; only pooling differs), `models.train`
+  (H4 ablation on the silver thermal field). Model invariants pinned by tests:
+  shape, budget parity, permutation-equivariance, direction-sensitivity.
+- **Result (`results/phase3/hierarchy_ablation/`, 30 train / 10 test, 3 seeds):**
+  flat 0.892 ± 0.003 vs hier 0.889 ± 0.016 test Spearman ρ; Δρ≈0, Wilcoxon p=0.75.
+  **HONEST NEGATIVE: hierarchy did not beat flat on this task/scale.** Reported as-is
+  (not spun). Likely: local thermal field + ~120-node graphs + a flat baseline that
+  already has global pooling → the §5 long-range/oversquashing regime isn't stressed.
+  Does not refute plan-H4 (real-data thermal ARI); flags the need for a harder test.
+- Decision: further training goes to Slurm (login-node CPU GAT run took 8 min).
+  Next predefined experiment: fix shallow depth, sweep scale, test if Δ(hier−flat)
+  grows with diameter. Queued, not yet run.
+- Repo green: 35 tests, ruff + pyright clean.
+
+### Interruption — Yaqoob returned; paused autonomous loop to report status.
