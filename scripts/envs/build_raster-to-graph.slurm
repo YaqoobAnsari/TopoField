@@ -14,7 +14,7 @@ cd "${SLURM_SUBMIT_DIR:-/data/gpfs/projects/punim2769/TopoField}"
 mkdir -p outputs/slurm
 module load Miniforge3/24.7.1-2
 source "$(conda info --base)/etc/profile.d/conda.sh"
-mamba create -y -n raster-to-graph python=3.7.13
+mamba create -y -n raster-to-graph python=3.7
 conda activate raster-to-graph
 pip install torch==1.9.1+cu111 torchvision==0.10.1+cu111 \
     -f https://download.pytorch.org/whl/torch_stable.html

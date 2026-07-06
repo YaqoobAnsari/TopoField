@@ -71,7 +71,7 @@
             "properties": {
               "attrs": {
                 "type": "object",
-                "required": ["type", "area"],
+                "required": ["type"],
                 "properties": {
                   "type": { "type": "string", "minLength": 1 },
                   "area": { "type": "number", "exclusiveMinimum": 0 },
@@ -142,6 +142,11 @@
           "enum": ["bidirectional", "forward", "backward"],
           "default": "bidirectional",
           "description": "Access direction. 'forward' = source->target, 'backward' = target->source. Absent is treated as 'bidirectional' by the validator."
+        },
+        "door_class": {
+          "type": "string",
+          "enum": ["r2c", "r2r", "exit", "door"],
+          "description": "Optional door classification carried from extraction (room-to-corridor, room-to-room, exit)."
         }
       }
     }

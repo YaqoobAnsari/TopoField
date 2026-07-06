@@ -27,3 +27,4 @@ Number sequentially (`0001`, `0002`, …). Never delete an ADR; supersede it.
 - [0001](0001-record-architecture-decisions.md) — Record architecture decisions in ADRs
 - [0002](0002-hdg-schema-v0.md) — HDG schema v0.1 and the two-layer validator
 - [0003](0003-storage-policy.md) — Datasets and heavy downloads on project storage, never HOME
+- [0004](0004-room-area-optional.md) — Room geometry (area) is recommended, not required

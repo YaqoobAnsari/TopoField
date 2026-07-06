@@ -15,14 +15,22 @@ def test_bad_tau_is_schema_error(toy_graph):
     assert any("tau" in e or "teleporter" in e for e in result.schema_errors)
 
 
-def test_missing_room_area_is_schema_error(toy_graph):
-    # icu_1 is a level-3 room; area is required by the schema.
+def test_missing_room_type_is_schema_error(toy_graph):
+    # A level-3 room requires `type` (area is optional per ADR 0004).
     for n in toy_graph["nodes"]:
         if n["id"] == "icu_1":
-            del n["attrs"]["area"]
+            del n["attrs"]["type"]
     result = validate(toy_graph)
     assert not result.ok
     assert result.schema_errors
+
+
+def test_room_without_area_is_valid(toy_graph):
+    # ADR 0004: extraction output may omit area; still schema-valid.
+    for n in toy_graph["nodes"]:
+        if n["id"] == "icu_1":
+            del n["attrs"]["area"]
+    assert validate(toy_graph).ok
 
 
 def test_dangling_edge_is_semantic_error(toy_graph):
