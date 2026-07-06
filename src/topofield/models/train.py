@@ -27,20 +27,29 @@ from .encoders import HDGNet
 torch.set_num_threads(1)  # be a good citizen on the shared login node
 
 
+def _prepare_one(g: dict[str, Any]) -> dict[str, Any]:
+    """One HDG -> feature tensors + silver thermal target (z-scored mean temp)."""
+    sim = simulate_thermal(g)
+    t = build_graph_tensors(g)
+    room_ids = [nid for nid, r in zip(t["ids"], t["room_mask"].tolist(), strict=False) if r]
+    temp = torch.tensor([sim["mean_temp"][nid] for nid in room_ids])
+    z = (temp - temp.mean()) / (temp.std() + 1e-6)
+    y = torch.zeros(len(t["ids"]))
+    y[t["room_mask"]] = z
+    t["y"] = y
+    return t
+
+
+def prepare_from_hdgs(graphs: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Prepare a corpus of HDGs (synthetic OR real, from the adapter/annotator).
+    Skips graphs with <3 rooms (a rank target needs at least three)."""
+    return [_prepare_one(g) for g in graphs if sum(1 for n in g["nodes"] if n["level"] == 3) >= 3]
+
+
 def _prepare(n_buildings: int, n_wings: int, seed0: int) -> list[dict[str, Any]]:
-    data = []
-    for k in range(n_buildings):
-        g = generate_hdg(seed=seed0 + k, n_wings=n_wings)
-        sim = simulate_thermal(g)
-        t = build_graph_tensors(g)
-        room_ids = [nid for nid, r in zip(t["ids"], t["room_mask"].tolist(), strict=False) if r]
-        temp = torch.tensor([sim["mean_temp"][nid] for nid in room_ids])
-        z = (temp - temp.mean()) / (temp.std() + 1e-6)
-        y = torch.zeros(len(t["ids"]))
-        y[t["room_mask"]] = z
-        t["y"] = y
-        data.append(t)
-    return data
+    return prepare_from_hdgs(
+        [generate_hdg(seed=seed0 + k, n_wings=n_wings) for k in range(n_buildings)]
+    )
 
 
 def _spearman(pred: torch.Tensor, target: torch.Tensor) -> float:
@@ -89,8 +98,16 @@ def run(
     lr: float = 5e-3,
     seeds: tuple[int, ...] = (0, 1, 2),
     out_dir: str | Path = "results/phase3/hierarchy_ablation",
+    data_dir: str | Path | None = None,
 ) -> dict[str, Any]:
-    data = _prepare(n_buildings, n_wings, seed0)
+    if data_dir is not None:
+        from ..data.dataset import load_hdg_dir
+
+        data = prepare_from_hdgs(load_hdg_dir(data_dir))
+    else:
+        data = _prepare(n_buildings, n_wings, seed0)
+    if len(data) <= n_test:
+        raise ValueError(f"need >{n_test} usable graphs; got {len(data)}")
     train, test = data[:-n_test], data[-n_test:]
     results: dict[str, list[dict[str, float]]] = {"flat": [], "hier": []}
     for seed in seeds:

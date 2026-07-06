@@ -4,6 +4,11 @@ All baselines are cloned (shallow, pinned) under `third_party/<name>/` (gitignor
 and run in **quarantined per-baseline conda envs**, built via **Slurm** (never the
 login node). Reproduce-first (§4) is a gate per baseline before any comparison.
 
+**Env build status (2026-07-06):** BUILT ✓ — `f3loc`, `roomformer` (CUDA ops
+compiled), `laser`, `raster-to-graph`. QUEUED — `tesseract` (+ real-image pipeline
+chained after it), `polyroom` (HARD), `house_diffusion`. BLOCKED — `heat`,
+`floor-sp` (torch too old for sm_80 GPUs). Check `squeue -u $USER`.
+
 ## Hardware constraint (important)
 Our GPUs are **A100 (sm_80)**, H100 (sm_90), L40S (sm_89). A CUDA arch needs a
 matching torch build:
